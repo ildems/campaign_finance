@@ -1,0 +1,25 @@
+[
+    
+    {
+        "link":"https://downloads.elections.il.gov/Expenditures.txt",
+        "table":"expenditures",
+        "date_field":"ExpendedDate",
+        "cast_fields":{
+            "id":"string"
+        }
+    },
+    {
+        "link":"https://downloads.elections.il.gov/Investments.txt",
+        "table":"investments",
+        "cast_fields":{
+            "id":"string"
+        }
+    },
+    {
+        "link":"https://downloads.elections.il.gov/Receipts.txt",
+        "table":"receipts",
+        "cast_fields":{
+            "id":"string"
+        }
+    }
+]
