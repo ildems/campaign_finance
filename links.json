@@ -69,7 +69,10 @@
         "link":"https://downloads.elections.il.gov/FiledDocs.txt",
         "table":"filed_docs",
         "cast_fields":{
-            
+            "id":"string",
+            "committee_id":"string",
+            "filed_doc_type":"string",
+            "pages":"string"
         }
     }
 ]

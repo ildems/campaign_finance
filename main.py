@@ -12,7 +12,7 @@ def stream_boe():
     start = _datetime.now()
 
     # Dictionary of all the relevent links.
-    link_f = open('links.json')
+    link_f = open('links_stream.json')
     link_json = link_f.read()
     links = json.loads(link_json)
 

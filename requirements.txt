@@ -2,3 +2,5 @@ google-i18n-address
 google.cloud
 nameparser
 pandas
+google-cloud-bigquery
+pyarrow
