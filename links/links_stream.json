@@ -1,7 +1,7 @@
 [
     
     {
-        "link":"https://downloads.elections.il.gov/Expenditures.txt",
+        "link":"http://downloads.elections.il.gov/Expenditures.txt",
         "table":"expenditures",
         "date_field":"ExpendedDate",
         "cast_fields":{
@@ -9,7 +9,7 @@
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/Investments.txt",
+        "link":"http://downloads.elections.il.gov/Investments.txt",
         "table":"investments",
         "date_field":"PurchaseDate",
         "cast_fields":{
@@ -17,7 +17,7 @@
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/Receipts.txt",
+        "link":"http://downloads.elections.il.gov/Receipts.txt",
         "table":"receipts",
         "date_field":"RcvDate",
         "cast_fields":{
