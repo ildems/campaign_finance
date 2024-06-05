@@ -1,13 +1,13 @@
 [
     {
-        "link":"https://downloads.elections.il.gov/Candidates.txt",
+        "link":"http://downloads.elections.il.gov/Candidates.txt",
         "table":"candidates",
         "cast_fields":{
                 "id":"string"
             }
     },
     {
-        "link":"https://downloads.elections.il.gov/CanElections.txt",
+        "link":"http://downloads.elections.il.gov/CanElections.txt",
         "table":"candidate_elections",
         "cast_fields":{
                 "id":"string",
@@ -15,7 +15,7 @@
             }
     },
     {
-        "link":"https://downloads.elections.il.gov/CmteCandidateLinks.txt",
+        "link":"http://downloads.elections.il.gov/CmteCandidateLinks.txt",
         "table":"committee_candidate_links",
         "cast_fields":{
             "id":"string",
@@ -24,7 +24,7 @@
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/CmteOfficerLinks.txt",
+        "link":"http://downloads.elections.il.gov/CmteOfficerLinks.txt",
         "table":"committee_officer_links",
         "cast_fields":{
             "id":"string",
@@ -33,7 +33,7 @@
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/Committees.txt",
+        "link":"http://downloads.elections.il.gov/Committees.txt",
         "table":"committees",
         "cast_fields":{
             "id":"string",
@@ -42,7 +42,7 @@
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/D2Totals.txt",
+        "link":"http://downloads.elections.il.gov/D2Totals.txt",
         "table":"d2_totals",
         "cast_fields":{
             "id":"string",
@@ -51,14 +51,14 @@
         }
     },        
     {
-        "link":"https://downloads.elections.il.gov/Officers.txt",
+        "link":"http://downloads.elections.il.gov/Officers.txt",
         "table":"officers",
         "cast_fields":{
             "id":"string"
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/PrevOfficers.txt",
+        "link":"http://downloads.elections.il.gov/PrevOfficers.txt",
         "table":"previous_officers",
         "cast_fields":{
             "id":"string",
@@ -66,7 +66,7 @@
         }
     },
     {
-        "link":"https://downloads.elections.il.gov/FiledDocs.txt",
+        "link":"http://downloads.elections.il.gov/FiledDocs.txt",
         "table":"filed_docs",
         "cast_fields":{
             "id":"string",

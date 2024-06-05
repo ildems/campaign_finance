@@ -1,27 +1,29 @@
 [
-    
     {
-        "link":"https://downloads.elections.il.gov/Expenditures.txt",
-        "table":"expenditures",
-        "date_field":"ExpendedDate",
-        "cast_fields":{
-            "id":"string"
-        }
+        "link": "http://downloads.elections.il.gov/Expenditures.txt",
+        "table": "expenditures",
+        "date_field": "ExpendedDate",
+        "cast_fields": {
+            "id": "string"
+        },
+        "byte_offset": 709529411
     },
     {
-        "link":"https://downloads.elections.il.gov/Investments.txt",
-        "table":"investments",
-        "date_field":"PurchaseDate",
-        "cast_fields":{
-            "id":"string"
-        }
+        "link": "http://downloads.elections.il.gov/Investments.txt",
+        "table": "investments",
+        "date_field": "PurchaseDate",
+        "cast_fields": {
+            "id": "string"
+        },
+        "byte_offset": 3164029
     },
     {
-        "link":"https://downloads.elections.il.gov/Receipts.txt",
-        "table":"receipts",
-        "date_field":"RcvDate",
-        "cast_fields":{
-            "id":"string"
-        }
+        "link": "http://downloads.elections.il.gov/Receipts.txt",
+        "table": "receipts",
+        "date_field": "RcvDate",
+        "cast_fields": {
+            "id": "string"
+        },
+        "byte_offset": 964697390
     }
 ]
