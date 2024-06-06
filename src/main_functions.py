@@ -2,16 +2,20 @@ from src.bq import data_to_bq
 from src.cleanup import clean_data
 from src.scrape import scrape_boe,stream_boe
 
-
 from datetime import datetime as _datetime
 from google.cloud import bigquery
 import glob
 import os
 import pandas as pd
 import pathlib
+import json
 
 # Function to run locally for testing
 # Arguments set where the data is pulling from and which files are being scraped
+
+def ensure_directory_exists(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 def main_local(
     raw_data_folder:os.PathLike = pathlib.Path('data', 'raw'),
@@ -24,8 +28,12 @@ def main_local(
 ):
     
     data = []
+    byte_offsets = {}
 
     if WRITE_LOCAL:
+        ensure_directory_exists(raw_data_folder)
+        ensure_directory_exists(cleaned_data_folder)
+
         if scrape_data:
             data = data + scrape_boe(pathlib.Path('links', 'links.json'))
         

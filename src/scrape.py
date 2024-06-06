@@ -13,27 +13,47 @@ def to_snake(s):
     re.sub('([A-Z]+)', r' \1',
     s.replace('-', ' '))).split()).lower()
 
+def fetch_header(url):
+    with requests.get(url, stream=True) as r:
+        buffer = r.iter_lines()
+        header_line = next(buffer).decode('latin-1')
+        header = header_line.strip().split('\t')
+    return header
+
 def stream_data_from_url(
         url:str,
         date_field:str,
+        byte_offset:int = None,
         PULL_FULL_FILE:bool = False
         ):
     start = datetime.now()
 
     data, chunksize = [], 10000
 
-    with requests.get(url, stream=True) as r:
+    headers = {}
+    if byte_offset is not None:
+        headers['Range'] = f'bytes={byte_offset}-'
+
+    header = fetch_header(url)
+
+    with requests.get(url, headers=headers, stream=True) as r:
         _break = False
 
-        buffer = r.iter_lines()  
-        reader = csv.DictReader(codecs.iterdecode(buffer, 'latin-1'), delimiter='\t', quoting=csv.QUOTE_NONE)
-        for i,row in enumerate(reader):
+        buffer = r.iter_lines()
+
+        if byte_offset is not None:
+            next(buffer)
+        
+        reader = csv.DictReader(codecs.iterdecode(buffer, 'latin-1'), fieldnames=header, delimiter='\t', quoting=csv.QUOTE_NONE)
+
+        for i, row in enumerate(reader):
             if _break == True:
                 data.append(row)
             elif i % chunksize == 0:
-                if datetime.strptime(row[date_field], '%Y-%m-%d  %H:%M:%S') >= (datetime.today() - timedelta(days=90)):
-                    print(f'Break at {i} rows')
-                    _break = True
+                if datetime.strptime(row[date_field], '%Y-%m-%d %H:%M:%S') >= (datetime.today() - timedelta(days=90)):
+                        print(f'Break at {i} rows')
+                        _break = True
+                
         
         print(f'Data read in {datetime.now() - start}')
         df = pd.DataFrame(data)
@@ -41,7 +61,6 @@ def stream_data_from_url(
         df.columns = [to_snake(x) for x in df.columns]
 
         return df
-
 
 # For parsing data directly from the board of elections website. Should output a dataframe.
 def data_from_url(url):    
@@ -66,7 +85,7 @@ def stream_boe(links_path):
     for l in links:
         data.append({
             "name":l['table'],
-            "data":stream_data_from_url(l['link'],l['date_field']),
+            "data":stream_data_from_url(l['link'],l['date_field'], byte_offset = l['byte_offset']),
             "cast_fields":l['cast_fields']
         })
     
