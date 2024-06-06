@@ -53,13 +53,7 @@ def stream_data_from_url(
                 if datetime.strptime(row[date_field], '%Y-%m-%d %H:%M:%S') >= (datetime.today() - timedelta(days=90)):
                         print(f'Break at {i} rows')
                         _break = True
-                # try:
-                #     if datetime.strptime(row[date_field], '%Y-%m-%d %H:%M:%S') >= (datetime.today() - timedelta(days=90)):
-                #         print(f'Break at {i} rows')
-                #         _break = True
-                # except ValueError as e:
-                #     print(f"Skipping row with malformed date: {row[date_field]}")
-                #     continue
+                
         
         print(f'Data read in {datetime.now() - start}')
         df = pd.DataFrame(data)
