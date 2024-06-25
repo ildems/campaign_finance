@@ -13,10 +13,11 @@ if __name__ == '__main__':
         src.main_functions.main_local(
             raw_data_folder=pathlib.Path('data', 'raw'),
             cleaned_data_folder=pathlib.Path('data', 'cleaned'),
-            WRITE_LOCAL=True,
+            WRITE_LOCAL=False,
             READ_LOCAL=False,
-            scrape_data=False,
-            stream_data=True
+            scrape_data=True,
+            stream_data=True,
+            
         )
     
     elif os.environ['ENVIRONMENT'] == 'prod':

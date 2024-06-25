@@ -32,7 +32,7 @@ def data_to_bq(client, data, bq_project, bq_dataset, bq_table, schema=None, repl
         else:
             client.delete_table(table_ref)
 
-    table = bigquery.Table(table_ref, schema=schema)
+    table = bigquery.Table(table_ref)
 
     job = client.load_table_from_dataframe(data, table, location="US")
 
