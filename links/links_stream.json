@@ -4,7 +4,11 @@
         "table": "expenditures",
         "date_field": "ExpendedDate",
         "cast_fields": {
-            "id": "string"
+            "id": "string",
+            "committee_id": "string",
+            "filed_doc_id": "string",
+            "e_trans_id": "string",
+            "expended_date": "date"
         },
         "byte_offset": 709529411
     },
@@ -13,7 +17,10 @@
         "table": "investments",
         "date_field": "PurchaseDate",
         "cast_fields": {
-            "id": "string"
+            "id": "string",
+            "committee_id": "string",
+            "filed_doc_id": "string",
+            "purchase_date": "date"
         },
         "byte_offset": 3164029
     },
@@ -22,7 +29,11 @@
         "table": "receipts",
         "date_field": "RcvDate",
         "cast_fields": {
-            "id": "string"
+            "id": "string",
+            "committee_id": "string",
+            "filed_doc_id": "string",
+            "e_trans_id": "string",
+            "rcv_date": "date"
         },
         "byte_offset": 964697390
     }
