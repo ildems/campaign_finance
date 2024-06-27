@@ -1,28 +1,31 @@
 from google.cloud import bigquery 
 
-def build_schema():
-    job_config = bigquery.LoadJobConfig(
-                schema=[
-                    bigquery.SchemaField("id", bigquery.enums.SqlTypeNames.STRING),
-                    bigquery.SchemaField("committeeid", bigquery.enums.SqlTypeNames.STRING),
-                    # bigquery.SchemaField("fileddocid", bigquery.enums.SqlTypeNames.STRING),
-                    bigquery.SchemaField("amount", bigquery.enums.SqlTypeNames.FLOAT64),
-                ],
-            )
+def build_schema(cast_fields):
+    schema = []
     
-    return job_config
+    for c in cast_fields.keys():
+        if cast_fields[c] == 'date':
+            schema.append( bigquery.SchemaField(c, bigquery.enums.SqlTypeNames.DATE))
+        if cast_fields[c] == 'string':
+            schema.append( bigquery.SchemaField(c, bigquery.enums.SqlTypeNames.STRING))
+    
+    print(schema)
 
-def data_to_bq(client, data, bq_project, bq_dataset, bq_table, schema=None, replace=False):
+    return schema
+
+def data_to_bq(client, data, bq_project, bq_dataset, bq_table, cast_cols, replace=False):
+
+    print(data.dtypes)
 
     dataset_ref = client.dataset(bq_dataset, project=bq_project)
     table_ref = dataset_ref.table(bq_table)
 
-    job_config = bigquery.LoadJobConfig()
+    job_config = bigquery.LoadJobConfig(
+        autodetect=False,
+        source_format=bigquery.SourceFormat.CSV
+    )
 
-    if schema is None:
-        job_config.autodetect = True
-    else:
-        job_config.schema = schema
+    job_config.schema = build_schema(cast_cols)
 
     if replace:
         try:

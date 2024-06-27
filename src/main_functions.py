@@ -41,7 +41,6 @@ def main_local(
             data = data + stream_boe(pathlib.Path('links', 'links_stream.json'))
 
         for d in data:
-            print(d['data'])
             d['data'].to_csv(pathlib.Path(raw_data_folder,d['name']+'.csv'),index=False)
 
         for d in data:
@@ -59,16 +58,16 @@ def main_local(
 
     else:
         if scrape_data:
-            data.append(scrape_boe)
+            data = data + scrape_boe(pathlib.Path('links', 'links.json'))
         
         if stream_data:
-            data.append(stream_boe)
+            data = data + stream_boe(pathlib.Path('links', 'links_stream.json'))
 
     if WRITE_CLOUD:
         client = bigquery.Client()
 
         for d in data:
-            data_to_bq(client,clean_data(d['data']),'demsilsp','boe_stream',d['table'])
+            data_to_bq(client,clean_data(d),'demsilsp','boe_stream',d['name'],d['cast_fields'])
     
     
 

@@ -11,8 +11,7 @@
         "table":"candidate_elections",
         "cast_fields":{
                 "id":"string",
-                "candidate_id":"string",
-                "election_year": "date"
+                "candidate_id":"string"
             }
     },
     {
@@ -75,8 +74,17 @@
             "id":"string",
             "committee_id":"string",
             "filed_doc_type":"string",
-            "pages":"string",
-            "election_year": "date"
+            "pages":"string"
+        }
+    },
+    {
+        "link": "http://downloads.elections.il.gov/Investments.txt",
+        "table": "investments",
+        "cast_fields": {
+            "id": "string",
+            "committee_id": "string",
+            "filed_doc_id": "string",
+            "purchase_date": "date"
         }
     }
 ]

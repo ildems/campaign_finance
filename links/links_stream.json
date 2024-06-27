@@ -13,18 +13,6 @@
         "byte_offset": 709529411
     },
     {
-        "link": "http://downloads.elections.il.gov/Investments.txt",
-        "table": "investments",
-        "date_field": "PurchaseDate",
-        "cast_fields": {
-            "id": "string",
-            "committee_id": "string",
-            "filed_doc_id": "string",
-            "purchase_date": "date"
-        },
-        "byte_offset": 3164029
-    },
-    {
         "link": "http://downloads.elections.il.gov/Receipts.txt",
         "table": "receipts",
         "date_field": "RcvDate",

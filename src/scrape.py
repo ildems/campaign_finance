@@ -47,16 +47,24 @@ def stream_data_from_url(
         reader = csv.DictReader(codecs.iterdecode(buffer, 'latin-1'), fieldnames=header, delimiter='\t', quoting=csv.QUOTE_NONE)
 
         for i, row in enumerate(reader):
-            if _break == True:
-                data.append(row)
-            elif i % chunksize == 0:
-                if datetime.strptime(row[date_field], '%Y-%m-%d %H:%M:%S') >= (datetime.today() - timedelta(days=90)):
-                        print(f'Break at {i} rows')
-                        _break = True
+            if i>0:
+                _break = True
+
+                if _break == True:
+                    data.append(row)
+                elif i % chunksize == 0:
+                    if datetime.strptime(row[date_field], '%Y-%m-%d %H:%M') >= (datetime.today() - timedelta(days=90)):
+                            print(f'Break at {i} rows')
+                            _break = True
                 
         
         print(f'Data read in {datetime.now() - start}')
         df = pd.DataFrame(data)
+
+        if None in df.columns:
+            df = df.drop(columns=[None])
+
+        print(df)
         
         df.columns = [to_snake(x) for x in df.columns]
 
@@ -85,7 +93,10 @@ def stream_boe(links_path):
     for l in links:
         data.append({
             "name":l['table'],
-            "data":stream_data_from_url(l['link'],l['date_field'], byte_offset = l['byte_offset']),
+            "data":stream_data_from_url(l['link'],l['date_field'], 
+                                        # byte_offset = l['byte_offset']
+                                        byte_offset=None
+                                        ),
             "cast_fields":l['cast_fields']
         })
     
@@ -107,5 +118,5 @@ def scrape_boe(links_path):
             "data":data_from_url(l['link']),
             "cast_fields":l['cast_fields']
         })
-    
+
     return data
