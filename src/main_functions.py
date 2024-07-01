@@ -1,4 +1,4 @@
-from src.bq import data_to_bq
+from src.bq import data_to_bq, build_schema, initialize_staging_table
 from src.cleanup import clean_data
 from src.scrape import scrape_boe,stream_boe
 
@@ -67,7 +67,9 @@ def main_local(
         client = bigquery.Client()
 
         for d in data:
-            data_to_bq(client,clean_data(d),'demsilsp','boe_stream',d['name'],d['cast_fields'])
+            staging_table_id = f'_staging_{d["name"]}'
+
+            data_to_bq(client,clean_data(d),'demsilsp','boe_stream',staging_table_id,d['cast_fields'])
     
     
 
