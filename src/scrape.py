@@ -69,9 +69,6 @@ def stream_data_from_url(
 
         if None in df.columns:
             df = df.drop(columns=[None])
-
-        print(url)
-        print(df)
         
         df.columns = [to_snake(x) for x in df.columns]
 

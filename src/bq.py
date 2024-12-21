@@ -15,9 +15,6 @@ def build_schema(cast_fields):
 
 def data_to_bq(client, data, bq_project, bq_dataset, bq_table, cast_cols, replace=False):
 
-    print(bq_table)
-    print(data)
-
     dataset_ref = client.dataset(bq_dataset, project=bq_project)
     table_ref = dataset_ref.table(bq_table)
 
