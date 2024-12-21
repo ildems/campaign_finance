@@ -1,4 +1,4 @@
-from src.bq import data_to_bq
+from src.bq import data_to_bq,run_sql
 from src.cleanup import clean_data
 from src.scrape import scrape_boe,stream_boe
 
@@ -67,22 +67,32 @@ def main_local(
         client = bigquery.Client()
 
         for d in data:
-            data_to_bq(client,clean_data(d),'demsilsp','boe_stream',d['name'],d['cast_fields'])
+            try:
+                data_to_bq(client,clean_data(d),'demsilsp','boe_stream',d['name'],d['cast_fields'])
+            except Exception as e:
+                print(f'***{d["name"]} failed - write to BQ***')
+                print(e)
     
     
 
 # Function for running in production on DNC's Portal
 
-# def main_live(
+def main_live():
+    data = []
+    data = data + scrape_boe(pathlib.Path('links', 'links.json'))
+    data = data + stream_boe(pathlib.Path('links', 'links_stream.json'))
 
-# ):
+    client = bigquery.Client()
+
+    for d in data:
+        try:
+            data_to_bq(client,clean_data(d),'demsilsp','boe_stream',d['name'],d['cast_fields'])
+        except Exception as e:
+            print(f'***{d["name"]} failed - write to BQ***')
+            print(e)
     
+    fd = open('src/merge.sql', 'r')
+    sqlFile = fd.read()
+    fd.close()
 
-
-
-# try:
-#         data_to_bq(client,data,'demsilsp','boe_stream',l['table'])    
-#         print(f"{len(data)} rows loaded into {l['table']} at f{_datetime.now() - start}")
-#     except Exception as e:
-#         print(e)
-#         print(f"Failed load into {l['table']} at f{_datetime.now() - start}")
+    run_sql(client,sqlFile)

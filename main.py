@@ -15,7 +15,7 @@ if __name__ == '__main__':
             cleaned_data_folder=pathlib.Path('data', 'cleaned'),
             WRITE_LOCAL=False,
             READ_LOCAL=False,
-            scrape_data=False,
+            scrape_data=True,
             stream_data=True,
             WRITE_CLOUD=True
         )

@@ -1,7 +1,7 @@
 [
     {
         "link": "http://downloads.elections.il.gov/Expenditures.txt",
-        "table": "expenditures",
+        "table": "_expenditures",
         "date_field": "ExpendedDate",
         "cast_fields": {
             "id": "string",
@@ -14,14 +14,15 @@
     },
     {
         "link": "http://downloads.elections.il.gov/Receipts.txt",
-        "table": "receipts",
+        "table": "_receipts",
         "date_field": "RcvDate",
         "cast_fields": {
             "id": "string",
             "committee_id": "string",
             "filed_doc_id": "string",
             "e_trans_id": "string",
-            "rcv_date": "date"
+            "rcv_date": "date",
+            "amount":"numeric"
         },
         "byte_offset": 964697390
     }

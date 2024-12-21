@@ -15,7 +15,8 @@ def build_schema(cast_fields):
 
 def data_to_bq(client, data, bq_project, bq_dataset, bq_table, cast_cols, replace=False):
 
-    print(data.dtypes)
+    print(bq_table)
+    print(data)
 
     dataset_ref = client.dataset(bq_dataset, project=bq_project)
     table_ref = dataset_ref.table(bq_table)
@@ -42,3 +43,6 @@ def data_to_bq(client, data, bq_project, bq_dataset, bq_table, cast_cols, replac
     job.result()
 
     assert job.state == "DONE"
+
+def run_sql(client,sql):
+    results = client.query_and_wait(sql)

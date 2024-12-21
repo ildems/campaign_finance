@@ -25,5 +25,5 @@ def cast_col(df, mapping):
                     df[col] = pd.to_datetime(df[col], errors = 'coerce')
                     df[col] = df[col].dt.strftime('%Y-%m-%d')
 
-        return df    
+    return df    
     

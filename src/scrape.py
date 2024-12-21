@@ -5,6 +5,11 @@ import requests
 import codecs
 from datetime import datetime, timedelta
 import json
+import io
+import time
+import random
+
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
 # Helper function for snake case
 def to_snake(s):
@@ -14,7 +19,7 @@ def to_snake(s):
     s.replace('-', ' '))).split()).lower()
 
 def fetch_header(url):
-    with requests.get(url, stream=True) as r:
+    with requests.get(url, stream=True,headers=headers) as r:
         buffer = r.iter_lines()
         header_line = next(buffer).decode('latin-1')
         header = header_line.strip().split('\t')
@@ -30,11 +35,12 @@ def stream_data_from_url(
 
     data, chunksize = [], 10000
 
-    headers = {}
-    if byte_offset is not None:
-        headers['Range'] = f'bytes={byte_offset}-'
+    headers['Range'] = None
 
     header = fetch_header(url)
+
+    if byte_offset is not None:
+        headers['Range'] = f'bytes={byte_offset}-'
 
     with requests.get(url, headers=headers, stream=True) as r:
         _break = False
@@ -64,6 +70,7 @@ def stream_data_from_url(
         if None in df.columns:
             df = df.drop(columns=[None])
 
+        print(url)
         print(df)
         
         df.columns = [to_snake(x) for x in df.columns]
@@ -71,12 +78,23 @@ def stream_data_from_url(
         return df
 
 # For parsing data directly from the board of elections website. Should output a dataframe.
-def data_from_url(url):    
+def data_from_url(url):
     # Import
-    df = pd.read_csv(url, sep='\t', encoding='latin-1')
-
-    # Columns to snake case
-    df.columns = [to_snake(x) for x in df.columns]
+    retry_delay = 30  # Initial delay in seconds
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            urlData = requests.get(url,headers=headers).content
+            df = pd.read_csv(io.StringIO(urlData.decode('latin-1')), sep='\t', encoding='latin-1')
+            
+            # Columns to snake case
+            df.columns = [to_snake(x) for x in df.columns]
+        except Exception as e:
+            print(f"Retry read {url} write number {attempt+1}")
+            print(e)
+            time.sleep(retry_delay)
+            retry_delay *= (attempt+1)  # Double the delay for the next attempt
+            retry_delay += random.uniform(0, 1)  # Add jitter
 
     # Return
     return df
@@ -94,8 +112,8 @@ def stream_boe(links_path):
         data.append({
             "name":l['table'],
             "data":stream_data_from_url(l['link'],l['date_field'], 
-                                        # byte_offset = l['byte_offset']
-                                        byte_offset=None
+                                        byte_offset = l['byte_offset']
+                                        # byte_offset=None
                                         ),
             "cast_fields":l['cast_fields']
         })
